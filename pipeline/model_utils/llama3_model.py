@@ -56,7 +56,6 @@ class Llama3Model(ModelBase):
         tokenizer.padding_side = "left"
         tokenizer.pad_token = tokenizer.eos_token
 
-        tokenizer.chat_template = LLAMA3_CHAT_TEMPLATE
 
         return tokenizer
 

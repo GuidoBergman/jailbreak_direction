@@ -96,15 +96,18 @@ class ModelBase(ABC):
 
                 responses = []
                 for instruction, generation in zip(instructions, generation_toks):
-                    response = self.tokenizer.decode(generation, skip_special_tokens=True).strip() 
+                    response = self.tokenizer.decode(generation, skip_special_tokens=True).strip()
 
+                    instruction = instruction.strip()
+			
                     # Remove the instruction from the response
                     last_message_index = response.rfind(instruction)
                     if last_message_index != -1:
                         response = response[last_message_index + len(instruction):].strip()
 
-                    model_start_msg = 'model\n'
-                    if response.startswith(model_start_msg):
+                    model_start_msgs = ['model\n', 'assistant\n']
+                    for model_start_msg in model_start_msgs:
+                      if response.startswith(model_start_msg):
                         response = response[len(model_start_msg):]
 
                     responses.append(response)
